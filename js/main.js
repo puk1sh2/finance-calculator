@@ -253,4 +253,5 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
     });
+console.log('Приложение успешно загружено!');
 });
