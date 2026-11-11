@@ -196,7 +196,7 @@ body {
     border-radius: var(--radius);
     font-size: 1rem;
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer; /* Курсор-рука при наведении */
     transition: background 0.2s;
     align-self: flex-start;
 }
