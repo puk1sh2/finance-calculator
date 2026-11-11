@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Личный финансовый калькулятор: конвертер валют, расчет вкладов и кредитов">
+    <title>Личный финансовый калькулятор</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Шапка сайта. Семантический тег header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="header__title">Личный финансовый калькулятор</h1>
+            <p class="header__subtitle">Конвертер валют, вклады и кредиты в одном месте</p>
+        </div>
+    </header>
+
+    <!-- Основной контент. Семантический тег main -->
+    <main class="main container">
+        <!-- Навигация по вкладкам. Используем ARIA-роли для доступности (скринридеры) -->
+        <nav class="tabs" aria-label="Разделы калькулятора" role="tablist">
+            <button class="tabs__btn tabs__btn--active" data-tab="converter" aria-selected="true" role="tab" aria-controls="tab-converter" id="btn-converter">Конвертер валют</button>
+            <button class="tabs__btn" data-tab="deposit" aria-selected="false" role="tab" aria-controls="tab-deposit" id="btn-deposit">Вклад</button>
+            <button class="tabs__btn" data-tab="credit" aria-selected="false" role="tab" aria-controls="tab-credit" id="btn-credit">Кредит</button>
+        </nav>
+
+        <!-- ================= СЕКЦИЯ 1: КОНВЕРТЕР ================= -->
+        <section id="tab-converter" class="tab-content tab-content--active" role="tabpanel" aria-labelledby="btn-converter">
+            <h2 class="section-title">Конвертер валют</h2>
+            
+            <form class="form" id="converter-form" novalidate>
+                <div class="form__group">
+                    <label for="converter-amount">Сумма</label>
+                    <input type="number" id="converter-amount" name="amount" step="0.01" min="0.01" placeholder="Например, 100" required>
+                    <!-- Блок для вывода ошибки валидации -->
+                    <span class="error-msg" id="converter-amount-error" aria-live="polite"></span>
+                </div>
+                
+                <div class="form__row">
+                    <div class="form__group">
+                        <label for="from-currency">Из валюты</label>
+                        <!-- Список валют заполнится через JS из API -->
+                        <select id="from-currency" name="from"></select>
+                    </div>
+                    <div class="form__group">
+                        <label for="to-currency">В валюту</label>
+                        <select id="to-currency" name="to"></select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Конвертировать</button>
+            </form>
+
+            <!-- Блок вывода результата. aria-live сообщит скринридеру об изменениях -->
+            <div class="result" id="converter-result" aria-live="polite">
+                <!-- Сюда JS будет выводить результат, загрузку или ошибку -->
+            </div>
+
+            <!-- Блок истории курса -->
+            <div class="history" id="converter-history" hidden>
+                <h3 class="history__title">История курса за период</h3>
+                <div id="history-content" class="history__content">
+                    <!-- Здесь будет таблица -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= СЕКЦИЯ 2: ВКЛАД ================= -->
+        <section id="tab-deposit" class="tab-content" role="tabpanel" aria-labelledby="btn-deposit" hidden>
+            <h2 class="section-title">Калькулятор вклада</h2>
+            
+            <form class="form" id="deposit-form" novalidate>
+                <div class="form__group">
+                    <label for="deposit-amount">Сумма вклада (₽)</label>
+                    <input type="number" id="deposit-amount" step="0.01" min="1000" required placeholder="Например, 50000">
+                    <span class="error-msg" id="deposit-amount-error" aria-live="polite"></span>
+                </div>
+                <div class="form__group">
+                    <label for="deposit-term">Срок (месяцев)</label>
+                    <input type="number" id="deposit-term" min="1" max="120" required placeholder="Например, 12">
+                    <span class="error-msg" id="deposit-term-error" aria-live="polite"></span>
+                </div>
+                <div class="form__group">
+                    <label for="deposit-rate">Годовая ставка (%)</label>
+                    <input type="number" id="deposit-rate" step="0.1" min="0.1" max="100" required placeholder="Например, 10">
+                    <span class="error-msg" id="deposit-rate-error" aria-live="polite"></span>
+                </div>
+                <div class="form__group form__group--checkbox">
+                    <label for="deposit-capitalization">
+                        <input type="checkbox" id="deposit-capitalization"> Капитализация процентов (ежемесячно)
+                    </label>
+                </div>
+                <button type="submit" class="btn">Рассчитать</button>
+            </form>
+
+            <div class="result" id="deposit-result" aria-live="polite">
+                <!-- Сюда JS будет выводить результат -->
+            </div>
+        </section>
+
+        <!-- ================= СЕКЦИЯ 3: КРЕДИТ ================= -->
+        <section id="tab-credit" class="tab-content" role="tabpanel" aria-labelledby="btn-credit" hidden>
+            <h2 class="section-title">Калькулятор кредита</h2>
+            
+            <form class="form" id="credit-form" novalidate>
+                <div class="form__group">
+                    <label for="credit-amount">Сумма кредита (₽)</label>
+                    <input type="number" id="credit-amount" step="0.01" min="1000" required placeholder="Например, 300000">
+                    <span class="error-msg" id="credit-amount-error" aria-live="polite"></span>
+                </div>
+                <div class="form__group">
+                    <label for="credit-term">Срок (месяцев)</label>
+                    <input type="number" id="credit-term" min="1" max="360" required placeholder="Например, 24">
+                    <span class="error-msg" id="credit-term-error" aria-live="polite"></span>
+                </div>
+                <div class="form__group">
+                    <label for="credit-rate">Годовая ставка (%)</label>
+                    <input type="number" id="credit-rate" step="0.1" min="0.1" max="100" required placeholder="Например, 15">
+                    <span class="error-msg" id="credit-rate-error" aria-live="polite"></span>
+                </div>
+                <button type="submit" class="btn">Рассчитать</button>
+            </form>
+
+            <div class="result" id="credit-result" aria-live="polite">
+                <!-- Сюда JS будет выводить результат -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Подключаем скрипты. type="module" позволяет использовать ES-модули -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

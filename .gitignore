@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Редакторы и IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (если вдруг понадобится)
+node_modules/
+npm-debug.log
+
+# Логи и временные файлы
+*.log
+.env
