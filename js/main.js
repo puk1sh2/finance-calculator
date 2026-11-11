@@ -1,4 +1,5 @@
 // ================= НАСТРОЙКИ API =================
+// Главный файл логики приложения
 const BASE_URL = 'https://api.frankfurter.dev/v1';
 
 async function fetchCurrencies() {
