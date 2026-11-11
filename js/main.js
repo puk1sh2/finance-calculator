@@ -37,6 +37,7 @@ function showError(inputId, errorId, message) {
     }
 }
 
+// Проверка введенной суммы
 function validateAmount(value) {
     const num = parseFloat(value);
     if (isNaN(num) || num <= 0) {
